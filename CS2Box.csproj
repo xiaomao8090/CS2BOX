@@ -31,4 +31,9 @@
     <None Update="LICENSE" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- 同时把职业选手数据打进 exe：单文件发布时，exe 旁边没有 Data 也能读到 -->
+  <ItemGroup>
+    <EmbeddedResource Include="Data\pros.json" LogicalName="pros.json" />
+  </ItemGroup>
+
 </Project>

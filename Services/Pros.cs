@@ -65,9 +65,26 @@ public static class Pros
 
     public static ProData Load()
     {
-        var path = File.Exists(UserPath) ? UserPath : BundledPath;
-        if (!File.Exists(path)) return new ProData();
-        return JsonSerializer.Deserialize<ProData>(File.ReadAllText(path), Opts) ?? new ProData();
+        // 用户改过的 > exe 旁边的 Data > 打进 exe 里的那份（单文件发布时就靠它）
+        string? json = null;
+        if (File.Exists(UserPath)) json = File.ReadAllText(UserPath);
+        else if (File.Exists(BundledPath)) json = File.ReadAllText(BundledPath);
+        else json = ReadEmbedded();
+
+        if (string.IsNullOrWhiteSpace(json)) return new ProData();
+        return JsonSerializer.Deserialize<ProData>(json, Opts) ?? new ProData();
+    }
+
+    static string? ReadEmbedded()
+    {
+        var asm = typeof(Pros).Assembly;
+        var name = asm.GetManifestResourceNames()
+            .FirstOrDefault(n => n.EndsWith("pros.json", StringComparison.OrdinalIgnoreCase));
+        if (name == null) return null;
+        using var s = asm.GetManifestResourceStream(name);
+        if (s == null) return null;
+        using var r = new StreamReader(s);
+        return r.ReadToEnd();
     }
 
     public static void Save(ProData data)
