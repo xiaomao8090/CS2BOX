@@ -1,0 +1,62 @@
+<Page x:Class="CS2Box.Pages.ConfigPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      Title="配置文件">
+    <StackPanel Margin="40,28,40,32" MaxWidth="1000">
+        <TextBlock Text="配置文件" Style="{StaticResource PageTitle}" />
+        <TextBlock x:Name="Sub" Style="{StaticResource PageSub}" TextWrapping="Wrap" />
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+            <ui:TextBox x:Name="BackupName" Width="220" PlaceholderText="备份名称" Text="手动备份" />
+            <ui:Button Content="备份当前设置" Appearance="Primary" Margin="8,0,0,0" Click="Backup_Click">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Save24" /></ui:Button.Icon>
+            </ui:Button>
+            <ui:Button Content="账号配置目录" Margin="8,0,0,0" Click="OpenUser_Click" />
+            <ui:Button Content="游戏 cfg 目录" Margin="8,0,0,0" Click="OpenGame_Click" />
+            <ui:Button Content="备份目录" Margin="8,0,0,0" Click="OpenBackups_Click" />
+        </StackPanel>
+
+        <TextBlock Text="账号之间同步" Style="{StaticResource SectionTitle}" Margin="0,4,0,8" />
+        <ui:Card Padding="16,12" Margin="0,0,0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="FromAcc" DisplayMemberPath="Display" />
+                <ui:SymbolIcon Grid.Column="1" Symbol="ArrowRight24" Margin="12,0" />
+                <ComboBox x:Name="ToAcc" Grid.Column="2" DisplayMemberPath="Display" />
+                <ui:Button Grid.Column="3" Content="复制设置" Margin="12,0,0,0" Click="Sync_Click" />
+            </Grid>
+        </ui:Card>
+        <TextBlock Text="把左边账号的按键、视频设置复制给右边账号，复制前会给右边账号自动备份。" FontSize="12" Margin="2,0,0,0"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+
+        <TextBlock Text="备份" Style="{StaticResource SectionTitle}" />
+        <TextBlock x:Name="Empty" Text="还没有备份。" Margin="0,24" HorizontalAlignment="Center"
+                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
+
+        <ItemsControl x:Name="List">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ui:CardControl Margin="0,0,0,4">
+                        <ui:CardControl.Icon><ui:SymbolIcon Symbol="Archive24" /></ui:CardControl.Icon>
+                        <ui:CardControl.Header>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Detail}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </ui:CardControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:Button Content="删除" Margin="0,0,8,0" Click="Delete_Click" Tag="{Binding}" />
+                            <ui:Button Content="还原" Appearance="Primary" MinWidth="72" Click="Restore_Click" Tag="{Binding}" />
+                        </StackPanel>
+                    </ui:CardControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</Page>

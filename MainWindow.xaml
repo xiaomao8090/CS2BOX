@@ -1,0 +1,106 @@
+<ui:FluentWindow x:Class="CS2Box.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:pages="clr-namespace:CS2Box.Pages"
+                 Title="CS2 盒子"
+                 Width="1100" Height="740" MinWidth="860" MinHeight="580"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 WindowCornerPreference="Round">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="CS2 盒子  v0.1.0">
+            <ui:TitleBar.Icon>
+                <ui:SymbolIcon Symbol="Box24" />
+            </ui:TitleBar.Icon>
+        </ui:TitleBar>
+
+        <ui:NavigationView x:Name="RootNav"
+                           Grid.Row="1"
+                           PaneDisplayMode="Left"
+                           OpenPaneLength="230"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneToggleVisible="True">
+
+            <!-- 导航顶部：当前 Steam 账号 -->
+            <ui:NavigationView.PaneHeader>
+                <Border x:Name="ProfileBox" Margin="4,4,4,8" Padding="8" CornerRadius="6" Cursor="Hand"
+                        Background="Transparent" MouseLeftButtonUp="Profile_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Grid Width="40" Height="40">
+                            <Ellipse Fill="{DynamicResource ControlStrongFillColorDefaultBrush}" />
+                            <TextBlock x:Name="ProfileInitial" Text="?" FontSize="16" FontWeight="SemiBold"
+                                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <Ellipse x:Name="ProfileAvatar" Visibility="Collapsed" />
+                        </Grid>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock x:Name="ProfileName" Text="未登录" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                            <TextBlock x:Name="ProfileUser" Text="" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </ui:NavigationView.PaneHeader>
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="主页" TargetPageType="{x:Type pages:HomePage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Home24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="账号切换" TargetPageType="{x:Type pages:AccountsPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="PeopleSwap24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="国服认证" TargetPageType="{x:Type pages:RealNamePage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="ShieldCheckmark24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="启动项" TargetPageType="{x:Type pages:LaunchPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Rocket24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItemSeparator />
+                <ui:NavigationViewItem Content="准星" TargetPageType="{x:Type pages:CrosshairPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Target24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="视频设置" TargetPageType="{x:Type pages:VideoPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Desktop24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="按键绑定" TargetPageType="{x:Type pages:BindsPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Keyboard24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="职业选手" TargetPageType="{x:Type pages:ProsPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Trophy24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="配置文件" TargetPageType="{x:Type pages:ConfigPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Folder24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItemSeparator />
+                <ui:NavigationViewItem Content="服务器延迟" TargetPageType="{x:Type pages:PingPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Pulse24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="录像" TargetPageType="{x:Type pages:DemosPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Video24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem Content="创意工坊" TargetPageType="{x:Type pages:WorkshopPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Map24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="设置" TargetPageType="{x:Type pages:SettingsPage}">
+                    <ui:NavigationViewItem.Icon><ui:SymbolIcon Symbol="Settings24" /></ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.FooterMenuItems>
+
+            <ui:NavigationView.ContentOverlay>
+                <Grid>
+                    <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                </Grid>
+            </ui:NavigationView.ContentOverlay>
+        </ui:NavigationView>
+    </Grid>
+</ui:FluentWindow>
